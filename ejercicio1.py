@@ -67,7 +67,7 @@ def train_perceptron_sg(x, y, x_test = None, y_test = None, n_epochs = 20, alpha
     return {'w':w}
 
 ##############################################################################################################################################
-
+#Gradiente de lote
 def train_perceptron_batch(x, y, x_test = None, y_test = None, n_epochs = 20, alpha = 0.001):
     n = x.shape[0]
     n_features = x.shape[1]
@@ -75,7 +75,7 @@ def train_perceptron_batch(x, y, x_test = None, y_test = None, n_epochs = 20, al
    #Inicializacion aleatoria
     w = 2 * np.random.rand(n_features) - 1
 
-    # Calculate model
+    # Calcular modelo
     epoch_acc = []
     for epoch in range(n_epochs):
         grad = np.zeros(n_features)
@@ -104,47 +104,47 @@ def train_perceptron_batch(x, y, x_test = None, y_test = None, n_epochs = 20, al
     
     return {'w':w}
 
-# Training routine, mini-batch optimization
+# Optimización de mini lote 
 def train_perceptron_mini_batch(x, y, x_test = None, y_test = None, n_epochs = 20, alpha = 0.001, batch_size = 5):
     n = x.shape[0]
     n_features = x.shape[1]
 
-  # Random initialization
+  # Inicialización aleatoria
     w = 2 * np.random.rand(n_features) - 1
 
-    # Calculate model
+    # Calcular modelo
     n_updates = n//batch_size + int(n%batch_size > 0)
     epoch_acc = []
     for epoch in range(n_epochs):
-        # Random indices
+        # Indices aleatorios
         indices = np.random.permutation(n)
 
-        # Update model
+        # Actualizar modelos
         j = 0
         for i in range(n_updates):
-            #Initialize gradient
+            #Inicializar gradiente
             grad = np.zeros(n_features)
 
-            # Calculate gradient
+            # Calcular gradiente
             counter = 0
             for p in range(batch_size):
                 if j >= n:
                     continue
 
-                # Evaluate perceptron
+                # Evaluar perceptron
                 yp = perceptron(x[indices[j], :], w)
 
-                # Calculate gradient
+                # Calcular gradiente
                 grad += (y[indices[j]] - yp) * x[indices[j], :]
 
-                # Update counters
+                # Actuazlizar contadores
                 counter += 1
                 j += 1
 
-            # Update weights
+            # Actualizar pesos
             w = w + alpha * grad
 
-        # Evaluate performance
+        # Evaluar rendimiento
         if x_test is not None and y_test is not None:
             y_test_pred = perceptron_mult(x_test, w)
             acc = accuracy_score(y_test, y_test_pred)
@@ -156,7 +156,7 @@ def train_perceptron_mini_batch(x, y, x_test = None, y_test = None, n_epochs = 2
     
     return {'w':w}
 
-# Loading data
+# Cargas datos
 data = np.loadtxt("c:/Users/Admin/Desktop/Semestre 6/deep/ajustesModeloClasificacion/misterious_data_1.txt")
 x = data[:,1:]
 y = data[:,0]
@@ -164,7 +164,7 @@ y = data[:,0]
 n = x.shape[0]
 nf = x.shape[1]
 
-# Preparing data
+# Preparar datos
 x = np.hstack((x, np.ones((n, 1))))
 y[y==1] = -1
 y[y==2] = 1
@@ -172,7 +172,7 @@ y[y==2] = 1
 n_epochs = 100
 alpha = 0.001
 
-# Evaluate Stochastic Gradient using cross validation
+# Evaluar gradiente estoica usando validacion cruzada
 nk = 10
 kf = StratifiedKFold(n_splits=nk, shuffle=True)
 
@@ -186,7 +186,7 @@ for train_index, test_index in kf.split(x,y):
     x_test = x[test_index, :]
     y_test = y[test_index]
 
-    # Train perceptron
+    # Entrenar perceptron
     model = train_perceptron_sg(x_train, y_train, x_test = x_test, y_test= y_test, n_epochs= n_epochs, alpha= alpha)
     acc += model['acc']
     epoch_acc += model['epoch_acc']
@@ -201,7 +201,7 @@ plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
 
-# Evaluate using batch optimization 
+# Evaluar usando optimizacion de lote
 nk = 10
 kf = StratifiedKFold(n_splits=nk, shuffle=True)
 
@@ -215,7 +215,7 @@ for train_index, test_index in kf.split(x,y):
     x_test = x[test_index, :]
     y_test = y[test_index]
 
-    # Train perceptron
+    # Entrenar perceptron
     model = train_perceptron_batch(x_train, y_train, x_test = x_test, y_test= y_test, n_epochs= n_epochs, alpha= alpha)
     acc += model['acc']
     epoch_acc += model['epoch_acc']
@@ -230,7 +230,7 @@ plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
 
-# Evaluate mini-batch optimization using cross validation
+# Evaluar usando optimizacion de mini lote
 nk = 10
 kf = StratifiedKFold(n_splits=nk, shuffle=True)
 
@@ -262,7 +262,7 @@ plt.show()
 ############################################################################################################################################
 #EJERCICIO 2
 
-# Using a SVM classificator
+# Utilizar clasificador SVM
 data_emoji = np.loadtxt("c:/Users/Admin/Desktop/Semestre 6/deep/ajustesModeloClasificacion/misterious_data_1.txt")
 x = data[:,1:]
 y = data[:,0]
@@ -273,17 +273,17 @@ kf = KFold(n_splits=n_folds, shuffle = True)
 cv_y_test = []
 cv_y_pred = []
 
-# Evaluating SVM classifier
+# Evaluar clasificador SVM 
 for train_index, test_index in kf.split(x):
     
-    # Training phase
+    # Entrenar fase
     x_train = x[train_index, :]
     y_train = y[train_index]
 
     clf_cv = SVC(kernel = 'linear')
     clf_cv.fit(x_train, y_train)
 
-    # Test phase
+    # Probar fase
     x_test = x[test_index, :]
     y_test = y[test_index]    
 
@@ -292,7 +292,7 @@ for train_index, test_index in kf.split(x):
     cv_y_test.append(y_test)
     cv_y_pred.append(y_pred)
 
-# Using Stochastis gradient 
+# Utilizar gradiente estoica
 n_epochs = 100
 alpha = 0.001
 
@@ -304,7 +304,7 @@ plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
 
-# Using batch optimization  
+# Utilizar optimizacion de lote
 n_epochs = 100
 alpha = 0.001
 
@@ -316,7 +316,7 @@ plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
 
-# Using mini batch optimization  
+# Utilizar optimizacion de mini lote 
 n_epochs = 100
 alpha = 0.001
 
