@@ -12,6 +12,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import accuracy_score
 
+#########################################################################################################################################################
+
 # Funcion del perceptron
 def perceptron(x, w):
     ws = sum(x * w)
@@ -66,6 +68,7 @@ def train_perceptron_sg(x, y, x_test = None, y_test = None, n_epochs = 20, alpha
     return {'w':w}
 
 ##############################################################################################################################################
+
 #Gradiente de lote
 def train_perceptron_batch(x, y, x_test = None, y_test = None, n_epochs = 20, alpha = 0.001):
     n = x.shape[0]
@@ -102,6 +105,7 @@ def train_perceptron_batch(x, y, x_test = None, y_test = None, n_epochs = 20, al
         return {'w':w, 'acc':epoch_acc[-1], 'epoch_acc':epoch_acc}
     
     return {'w':w}
+#########################################################################################################################################################
 
 # Optimización de mini lote 
 def train_perceptron_mini_batch(x, y, x_test = None, y_test = None, n_epochs = 20, alpha = 0.001, batch_size = 5):
@@ -154,6 +158,7 @@ def train_perceptron_mini_batch(x, y, x_test = None, y_test = None, n_epochs = 2
         return {'w':w, 'acc':epoch_acc[-1], 'epoch_acc':epoch_acc}
     
     return {'w':w}
+#########################################################################################################################################################
 
 # Cargas datos
 data = np.loadtxt("c:/Users/Admin/Desktop/Semestre 6/deep/ajustesModeloClasificacion/misterious_data_1.txt")
@@ -170,6 +175,8 @@ y[y==2] = 1
 
 n_epochs = 100
 alpha = 0.001
+
+#########################################################################################################################################################
 
 # Evaluar gradiente estoica usando validacion cruzada
 nk = 10
@@ -200,6 +207,8 @@ plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
 
+#########################################################################################################################################################
+
 # Evaluar usando optimizacion de lote
 nk = 10
 kf = StratifiedKFold(n_splits=nk, shuffle=True)
@@ -228,6 +237,8 @@ plt.title('Error promedio vs Epoca:Optimización de lote')
 plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
+
+#########################################################################################################################################################
 
 # Evaluar usando optimizacion de mini lote
 nk = 10
@@ -290,7 +301,9 @@ for train_index, test_index in kf.split(x):
     
     cv_y_test.append(y_test)
     cv_y_pred.append(y_pred)
-
+    
+#########################################################################################################################################################   
+    
 # Utilizar gradiente estoica
 n_epochs = 100
 alpha = 0.001
@@ -303,6 +316,8 @@ plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
 
+#########################################################################################################################################################
+
 # Utilizar optimizacion de lote
 n_epochs = 100
 alpha = 0.001
@@ -314,6 +329,8 @@ plt.title('Error promedio vs Epoca: Optimización de lote SVM')
 plt.xlabel('Epoca')
 plt.ylabel('Error')
 plt.show()
+
+#########################################################################################################################################################
 
 # Utilizar optimizacion de mini lote 
 n_epochs = 100
