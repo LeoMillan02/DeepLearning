@@ -5,7 +5,7 @@ from sklearn.metrics import mean_squared_error
 import numpy as np
 from sklearn.model_selection import cross_val_score
 
-
+#########################################################################################################################################################
 # Parte 1
 file_path = "c:/Users/Admin/Desktop/Semestre 6/deep/ajustesModeloClasificacion/misterious_data_1.txt"
 data = np.genfromtxt(file_path, delimiter='\t')
@@ -29,7 +29,9 @@ kf = KFold(n_splits=5, shuffle=True)
 mse_scores = cross_val_score(regressor, x, y, cv=kf, scoring='neg_mean_squared_error')
 
 average_mse = -np.mean(mse_scores)
+print('####################################################')
 print('Rendimiento con 2 clases:', average_mse)
+print(' ')
 
 #########################################################################################################################################################
 #Parte 2
@@ -72,8 +74,9 @@ kf = KFold(n_splits=5, shuffle=True)
 mse_scores = cross_val_score(regressor, x, y, cv=kf, scoring='neg_mean_squared_error')
 
 average_mse = -np.mean(mse_scores)
-print('Rendimiento con 2 clases:', average_mse)
-
+print('####################################################')
+print('Rendimiento con 4 clases:', average_mse)
+print(' ')
 
 #########################################################################################################################################################
 #Parte 3
@@ -119,4 +122,6 @@ for train_index, test_index in kf.split(x):
     mse_scores.append(mse)
 
 average_mse = np.mean(mse_scores)
+print('####################################################')
 print('Error cuadrático medio promedio (MSE):', average_mse)
+print(' ')
